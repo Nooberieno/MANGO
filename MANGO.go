@@ -52,6 +52,8 @@ func main() {
 		for _, v := range devmodules {
 			fmt.Println("Developer Module: ", v)
 		}
+	case "command":
+		command("echo $HOME")
 	default:
 		modules := get_modules(false)
 		if contains_module(modules, os.Args[1]) {
