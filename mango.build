@@ -1,0 +1,9 @@
+all: 
+	Name: MANGO
+	Language: go
+	Compiler: gc
+
+module install:
+	
+module?dev clean: #require #module install
+	

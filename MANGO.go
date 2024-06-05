@@ -20,7 +20,7 @@ func BuildGen(program_name string, lang_name string, comp_name string) {
 		return
 	}
 	defer file.Close()
-	write_string := "Name: " + program_name + "\nLanguage: " + lang_name + "\nCompiler: " + comp_name + "\n"
+	write_string := "all: \n\tName: " + program_name + "\n\tLanguage: " + lang_name + "\n\tCompiler: " + comp_name + "\n\nmodule install:\n\t\nmodule?dev clean: #require #module install\n\t"
 	_, err = file.WriteString(write_string)
 	if err != nil {
 		fmt.Println("Error: ", err)
@@ -34,14 +34,30 @@ func main() {
 		fmt.Println("Please provide an argument")
 		return
 	}
-	if os.Args[1] == "build" {
+	switch os.Args[1] {
+	case "build":
 		CheckBuildFile()
 		fmt.Println("mango.build file provided")
-	}
-	if os.Args[1] == "make" {
+	case "init":
 		if len(os.Args) < 5 {
-			fmt.Println("Missing arguments, mango make <name> <programming language> <compiler>")
+			fmt.Println("Missing arguments, MANGO make <name> <programming language> <compiler/interpreter>")
 		}
 		BuildGen(os.Args[2], os.Args[3], os.Args[4])
+	case "check":
+		modules := get_modules(false)
+		devmodules := get_modules(true)
+		for _, v := range modules {
+			fmt.Println("Module: ", v)
+		}
+		for _, v := range devmodules {
+			fmt.Println("Developer Module: ", v)
+		}
+	default:
+		modules := get_modules(false)
+		if contains_module(modules, os.Args[1]) {
+			fmt.Println("Executing module: ", os.Args[1])
+		} else {
+			fmt.Println("Unknown command: ", os.Args[1])
+		}
 	}
 }
