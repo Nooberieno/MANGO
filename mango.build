@@ -1,9 +1,11 @@
-all: 
-	Name: MANGO
-	Language: go
-	Compiler: gc
+GO = go
 
-module install:
-	
-module?dev clean: #require #module install
-	
+target compile{
+	# Compile the build
+	- ${GO} build MANGO.go
+}
+
+target run {
+	# Compile and run the build
+	- ${GO} run MANGO.go
+}
