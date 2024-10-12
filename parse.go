@@ -1,6 +1,7 @@
 package main
 
 import (
+	"regexp"
 	"strings"
 )
 
@@ -35,11 +36,23 @@ func parse(contents string) {
 		} else if in_target && strings.HasPrefix(line, "-") {
 			in_command = true
 			command := strings.TrimPrefix(line, "- ")
-			targets[len(targets)-1].Commands = append(targets[len(targets)-1].Commands, command)
+			true_command := variable_substitute(command)
+			targets[len(targets)-1].Commands = append(targets[len(targets)-1].Commands, true_command)
 		} else if !in_command && in_target {
 			strings.Contains(line, "}")
 			in_target = false
 			current_target = nil
 		}
 	}
+}
+
+func variable_substitute(command string) string {
+	re := regexp.MustCompile(`\$\{([a-zA-Z_][a-zA-Z0-9_]*)\}`)
+	return re.ReplaceAllStringFunc(command, func(varcall string) string {
+		varname := varcall[2 : len(varcall)-1]
+		if value, exists := variables[varname]; exists {
+			return value
+		}
+		return varcall
+	})
 }
