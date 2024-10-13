@@ -5,7 +5,9 @@ target compile{
 	- ${GO} build MANGO.go
 }
 
-target run {
+ihwudojahdiowajondakwdjwanjkdlnwajk
+
+target run{
 	# Compile and run the build
 	- ${GO} run MANGO.go
 }
