@@ -1,7 +1,10 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"log"
+	"os"
 	"regexp"
 	"strings"
 )
@@ -32,13 +35,23 @@ func (e *ParseError) Error() string {
 	return errormsg
 }
 
-func parse(contents string) error {
-	lines := strings.Split(contents, "\n")
+func parse_file() error {
+	file, err := os.Open(check_file())
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+	scanner := bufio.NewScanner(file)
+
 	in_target := false
 	var current_target *Target
-	for i, line := range lines {
-		line = strings.TrimSpace(line)
-		if strings.Contains(line, "=") {
+
+	for scanner.Scan() {
+		i := 0
+		line := strings.TrimSpace(scanner.Text())
+		if strings.HasPrefix(line, "#") || len(line) == 0 {
+			continue
+		} else if strings.Contains(line, "=") {
 			parts := strings.SplitN(line, "=", 2)
 			varname := strings.TrimSpace(parts[0])
 			varval := strings.TrimSpace(parts[1])
@@ -73,7 +86,7 @@ func parse(contents string) error {
 		} else if strings.Contains(line, "}") && in_target {
 			in_target = false
 			current_target = nil
-		} else if in_target && line == lines[len(lines)-1] && !strings.Contains(line, "}") {
+		} else if in_target && !scanner.Scan() && !strings.Contains(line, "}") {
 			return &ParseError{
 				Line:    i + 1,
 				Column:  8 + len(current_target.Name),
@@ -88,7 +101,7 @@ func parse(contents string) error {
 				Context:    "target " + current_target.Name,
 				Suggestion: "Inside a target block use # for comments, - for command or use } to close the current target block",
 			}
-		} else {
+		} else if strings.TrimSpace(line) != "" {
 			return &ParseError{
 				Line:       i + 1,
 				Column:     0,
@@ -96,6 +109,10 @@ func parse(contents string) error {
 				Context:    line,
 				Suggestion: "Was this meant to be a comment?, if so use # at the beginning of the line",
 			}
+		}
+		i++
+		if err := scanner.Err(); err != nil {
+			log.Fatal(err)
 		}
 	}
 	return nil

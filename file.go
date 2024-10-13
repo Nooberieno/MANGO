@@ -1,11 +1,9 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"log"
 	"os"
-	"strings"
 )
 
 func check_file() (build_file string) {
@@ -19,29 +17,7 @@ func check_file() (build_file string) {
 	} else if err == nil {
 		return "mango.build"
 	} else {
-		panic("No valid build file")
+		log.Fatal("No valid build file")
 	}
-
-}
-
-func open_build() (contents string) {
-	file, err := os.Open(check_file())
-	if err != nil {
-		fmt.Println(err)
-	}
-	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		line := strings.TrimSpace(scanner.Text())
-		if len(line) == 0 || strings.HasPrefix(line, "#") {
-			continue
-		} else {
-			contents += line + "\n"
-		}
-	}
-	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
-	}
-	return contents
+	return ""
 }

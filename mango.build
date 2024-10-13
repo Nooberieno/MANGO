@@ -2,12 +2,11 @@ GO = go
 
 target compile{
 	# Compile the build
+	- ${GO} mod tidy
 	- ${GO} build MANGO.go
 }
-
-ihwudojahdiowajondakwdjwanjkdlnwajk
-
-target run{
+target run
 	# Compile and run the build
+	- ${GO} mod tidy
 	- ${GO} run MANGO.go
 }

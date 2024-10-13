@@ -1,10 +1,13 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+)
 
 func main() {
-	if err := parse(open_build()); err != nil {
-		fmt.Println(err)
+	if err := parse_file(); err != nil {
+		log.Fatal(err)
 	} else {
 		fmt.Println("targets:")
 		for _, target := range targets {
