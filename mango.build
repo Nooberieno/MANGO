@@ -3,10 +3,11 @@ GO = go
 target compile{
 	# Compile the build
 	- ${GO} mod tidy
-	- ${GO} build MANGO.go
+	- ${GO} build MANGO.go file.go parse.go execute.go
 }
-target run
+
+target run{
 	# Compile and run the build
 	- ${GO} mod tidy
-	- ${GO} run MANGO.go
+	- ${GO} run MANGO.go file.go parse.go
 }
