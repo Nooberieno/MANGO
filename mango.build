@@ -3,7 +3,7 @@ GO = go
 target compile{
 	# Compile the build
 	- ${GO} mod tidy
-	- rm ./MANGO
+	- rm -f ./MANGO
 	- ${GO} build MANGO.go file.go parse.go execute.go flags.go
 }
 
