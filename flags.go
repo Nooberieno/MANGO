@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -11,6 +12,7 @@ var (
 	verbose bool
 	shell   bool
 	quiet   bool
+	logfile bool
 )
 
 func init() {
@@ -20,6 +22,8 @@ func init() {
 	flag.BoolVar(&shell, "shell", false, "Enable shell command execution")
 	flag.BoolVar(&quiet, "q", false, "")
 	flag.BoolVar(&quiet, "quiet", false, "Enable quiet output")
+	flag.BoolVar(&logfile, "l", false, "")
+	flag.BoolVar(&logfile, "log", false, "Log output to file")
 }
 
 func parse_flags() {
@@ -39,6 +43,14 @@ func parse_flags() {
 			}
 		}
 		continue
+	}
+	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr, "Usage: MANGO [flags] <target>\n")
+		fmt.Fprintf(os.Stderr, "Flags:\n")
+		fmt.Fprintf(os.Stderr, "-v, --verbose\n\t Enable verbose output\n")
+		fmt.Fprintf(os.Stderr, "-s, --shell\n\t Enable shell command execution\n")
+		fmt.Fprintf(os.Stderr, "-q, --quiet\n\t Enable quiet output\n")
+		fmt.Fprintf(os.Stderr, "-l, --logfile\n\t Log output to MANGO.log file\n")
 	}
 	flag.Parse()
 }

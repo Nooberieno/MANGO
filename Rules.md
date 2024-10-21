@@ -47,7 +47,7 @@ this line does not
 ```
 
 ## Commands
-Currently in MANGO there is only one type of command user made commands  
+Currently in MANGO there is only one type of command user made commands, these commands can be executed by the users default shell or directly executed by the OS    
 User made commands may only exist inside a [target block]() and must be started by a - symbol  
 Structure: - <command\>  
 Examples:

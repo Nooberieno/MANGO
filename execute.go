@@ -32,7 +32,7 @@ func shell_command(commands []string) error {
 			if verbose {
 				log.Printf("Command executed succesfully without error")
 			}
-		} else {
+		} else if !quiet {
 			log.Printf("Shell command output: %s\n", trimmed_output)
 		}
 	}
