@@ -1,9 +1,9 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
-	"os"
 )
 
 func check_target(target string) *Target {
@@ -17,15 +17,22 @@ func check_target(target string) *Target {
 }
 
 func main() {
+	parse_flags()
+	args := flag.Args()
 	if err := parse_file(); err != nil {
 		log.Fatal(err)
 	}
-	if len(os.Args) >= 2 {
-		actual_target := check_target(os.Args[1])
+	if len(args) >= 1 {
+		actual_target := check_target(args[0])
 		if actual_target == nil {
-			log.Fatal("Unknown target: ", os.Args[1])
-		} else {
+			log.Fatal("Unknown target: ", args[0])
+		} else if shell {
 			err := shell_command(actual_target.Commands)
+			if err != nil {
+				log.Fatal(err)
+			}
+		} else {
+			err := command(actual_target.Commands)
 			if err != nil {
 				log.Fatal(err)
 			}
