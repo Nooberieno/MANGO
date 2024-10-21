@@ -18,7 +18,7 @@ func check_target(target string) *Target {
 func main() {
 	parse_flags()
 	if logfile {
-		file, err := os.OpenFile("MANGO.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+		file, err := os.OpenFile(logfileout, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 		if err != nil {
 			log.Fatal(err)
 		}
