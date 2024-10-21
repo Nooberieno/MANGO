@@ -2,13 +2,11 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
 )
 
 func check_target(target string) *Target {
 	for _, item := range targets {
-		fmt.Println(item.Name)
 		if item.Name == target {
 			return &item
 		}

@@ -15,6 +15,7 @@ func get_shell() string {
 }
 
 func shell_command(commands []string) error {
+	count := 0
 	shell := get_shell()
 	for _, command := range commands {
 		cmd := exec.Command(shell, "-c", command)
@@ -24,15 +25,22 @@ func shell_command(commands []string) error {
 		}
 		trimmed_output := strings.TrimSpace(string(output))
 		if trimmed_output == "" {
-			log.Printf("Shell command executed succesfully with no output\n")
+			count += 1
 		} else {
 			log.Printf("Shell command output: %s\n", trimmed_output)
 		}
+	}
+	if count == len(commands) {
+		log.Printf("All commands executed succesfully without output\n")
+	} else {
+		num_success := len(commands) - count
+		log.Printf("%d commands executed succesfully without output\n", num_success)
 	}
 	return nil
 }
 
 func command(commands []string) error {
+	count := 0
 	for _, command := range commands {
 		cmd_parts := strings.Fields(command)
 		if len(cmd_parts) < 1 {
@@ -45,10 +53,16 @@ func command(commands []string) error {
 		}
 		trimmed_output := strings.TrimSpace(string(output))
 		if trimmed_output == "" {
-			log.Printf("Command executed succesfully with no output\n")
+			count += 1
 		} else {
 			log.Printf("Command output: %s\n", trimmed_output)
 		}
+	}
+	if count == len(commands) {
+		log.Printf("All commands executed succesfully without output\n")
+	} else {
+		num_success := len(commands) - count
+		log.Printf("%d commands executed succesfully without output\n", num_success)
 	}
 	return nil
 }
