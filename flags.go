@@ -10,13 +10,16 @@ import (
 var (
 	verbose bool
 	shell   bool
+	quiet   bool
 )
 
 func init() {
-	flag.BoolVar(&verbose, "v", false, "Enable verbose mode")
-	flag.BoolVar(&verbose, "verbose", false, "Enable verbose mode")
+	flag.BoolVar(&verbose, "v", false, "Enable verbose output")
+	flag.BoolVar(&verbose, "verbose", false, "Enable verbose output")
 	flag.BoolVar(&shell, "s", false, "Enable shell command execution")
 	flag.BoolVar(&shell, "shell", false, "Enable shell command execution")
+	flag.BoolVar(&quiet, "q", false, "Enable quiet output")
+	flag.BoolVar(&quiet, "quiet", false, "Enable quiet output")
 }
 
 func parse_flags() {
@@ -30,7 +33,11 @@ func parse_flags() {
 			case ("--s"):
 				log.Fatal("Please use --shel or -s to enable shell command execution")
 			case ("--v"):
-				log.Fatal("please use --verbose or -v to enable verbose output")
+				log.Fatal("Please use --verbose or -v to enable verbose output")
+			case ("--q"):
+				log.Fatal("Please use --quiet or -q to enable quiet output")
+			case ("-quiet"):
+				log.Fatal("Please use --quiet or -q to enable quiet output")
 			default:
 				continue
 			}
