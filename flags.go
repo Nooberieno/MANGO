@@ -15,6 +15,7 @@ var (
 	logfileout string
 )
 
+// Initializes the flags MANGO uses, can be seen by using --help, -h or by typing in a wrong command
 func init() {
 	flag.BoolVar(&verbose, "v", false, "")
 	flag.BoolVar(&verbose, "verbose", false, "Enable verbose output")
@@ -28,6 +29,7 @@ func init() {
 	flag.StringVar(&logfileout, "logfile", "MANGO.log", "Specify output to log MANGO's output, MANGO.log by default")
 }
 
+// Parses flags to check if the flags are more POSIX style
 func parse_flags() {
 	for _, arg := range os.Args[1:] {
 		if strings.HasPrefix(arg, "-") {

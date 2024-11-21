@@ -6,6 +6,7 @@ import (
 	"os"
 )
 
+// Check it the provided target is a target that exists
 func check_target(target string) *Target {
 	for _, item := range targets {
 		if item.Name == target {
