@@ -5,6 +5,8 @@ import (
 	"os"
 )
 
+// Checks if the default build file exists if it is continue, if not throw an error
+// Returns a string containing the build file path
 func check_file() (build_file string) {
 	_, ERR := os.Stat("MANGO.build")
 	_, err := os.Stat("mango.build")
@@ -15,8 +17,7 @@ func check_file() (build_file string) {
 		return "MANGO.build"
 	} else if err == nil {
 		return "mango.build"
-	} else {
-		log.Fatal("No valid build file")
 	}
+	log.Fatal("No valid build file")
 	return ""
 }
